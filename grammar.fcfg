@@ -1,73 +1,50 @@
-S -> WH AUX[FORM=?f] SUBS
-S -> WH SUBS | WH SUBS SUBS
-S -> SUBS
+S[-INV] -> SUB | S CONJ S | CONJ SUB SUB
+S[-INV] -> NP S/NP
+S[-INV] -> ADV[+WH] S[+INV]
+S[+INV] -> V[+AUX] NP VP
 
-SUBS[NUM=?n, FORM=?f] -> NP[NUM=?n] VP[FORM=?f, NUM=?n]
+# Subsentence
+SUB -> NP[NUM=?n] VP[NUM=?n, SUBCAT=nil]
 
+## Verb Phrases
 
-VP[SUBCAT=?args, FORM=?f] -> V[SUBCAT=?args, FORM=?f]
-VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] PP[NUM=?n]
-VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] NP[NUM=?n]
-VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] NP[NUM=?n] PP[NUM=?n]
-VP[SUBCAT=?rest, FORM=?f] -> VP[SUBCAT=[HEAD=?arg, TAIL=?rest], FORM=?f] ARG[CAT=?arg]
-VP[SUBCAT=?rest, FORM=?f] -> ADV VP[SUBCAT=[HEAD=?arg, TAIL=?rest], FORM=?f]
-VP[SUBCAT=?rest, FORM=?f] -> VP[SUBCAT=nil, FORM=?f] CONJ VP[SUBCAT=nil, FORM=?f]
-VP[SUBCAT=?rest, FORM=?f] -> MOD VP[SUBCAT=nil, FORM=?f]
+# intransitive
+VP[NUM=?n, SUBCAT=?args] -> V[NUM=?n, SUBCAT=?args]
+# transitive
+VP[NUM=?n, SUBCAT=?rest] -> VP[NUM=?n, SUBCAT=[HEAD=?arg, TAIL=?rest]] ARG[CAT=?arg]
+# other
+VP[NUM=?n] -> ADV VP[NUM=?n] | VP[NUM=?n] ADJN | VP[NUM=?n] CONJ VP[NUM=?n]
 
-NP[NUM=?n]-> N[NUM=?n]
-NP[NUM=?n] -> PN[NUM=?n]
-NP[NUM=?n]-> DET N[NUM=?n]
-NP -> NP CONJ NP
-
-PP[NUM=?n] -> PREP NP[NUM=?n]
-
+## Verb Arguments
 ARG[CAT=np] -> NP
-ARG[CAT=pp] -> PP
-ARG[CAT=vp] -> VP
-ARG[CAT=gp] -> VP[FORM=grnd]
+ARG[CAT=sub] -> SUB
 
+NP[NUM=?n] -> N[NUM=?n] | PN[NUM=?n] | DET N[NUM=?n] | NP CONJ NP
+PP -> PREP NP
+ADJN -> PP
 
-### Parts of Speech (Terminals)
+### Lexical Productions
 
-ADV -> 'seldom' | 'often'
-CONJ -> 'and'
-DET -> 'the'
-PREP -> 'in' | 'after'
-WH -> 'when' | 'what' | 'whom' | 'where'
+V[TENSE=pres, NUM=pl, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eat' | 'invent'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eats' | 'invents'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'feeds'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=np, TAIL=nil]]] -> 'feeds'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]]] -> 'puts'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=sub, TAIL=nil]] -> 'thinks'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=nil] -> 'barks' 
+V[TENSE=pres, NUM=pl, +AUX, SUBCAT=nil] -> 'do'
+V[TENSE=pres, NUM=sg, +AUX, SUBCAT=nil] -> 'does'
+V[TENSE=past, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'ate'
+V[TENSE=past, -AUX, SUBCAT=nil] ->  'barked'
 
-## Nouns
 N[NUM=sg] -> 'cheese' | 'dinner' | 'kitchen'
-N[NUM=pl] -> 'contraptions' | 'cheese'
+N[NUM=pl] -> 'contraptions'
 
 PN[NUM=sg] -> 'Gromit' | 'Wallace'
 
-## Auxiliary verbs
-AUX[FORM=base, T=q] -> 'do'
-AUX[FORM=base, T=m] -> 'have'
-AUX[FORM=p3sg, T=q] -> 'does'
+ADV[+WH] -> 'when'
+ADV[-WH] -> 'seldom' | 'often'
 
-## Modal
-MOD -> 'may' AUX[FORM=base, T=m]
-
-## Verbs
-
-# base
-V[FORM=base, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eat' | 'invent' | 'feed'
-V[FORM=base, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]]] -> 'eat' | 'invent'
-V[FORM=base, SUBCAT=[HEAD=vp, TAIL=nil]] -> 'think' S
-
-# third person singular present:
-V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=nil], NUM=sg] -> 'eats' | 'invents' | 'feeds'
-V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]], NUM=sg] -> 'eats' | 'invents' | 'feeds' | 'likes' | 'watches'
-V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=vp, TAIL=nil]], NUM=sg] -> 'watches'
-V[FORM=p3sg, SUBCAT=[HEAD=gp, TAIL=[HEAD=np, TAIL=nil]], NUM=sg] -> 'likes'
-V[FORM=p3sg, SUBCAT=[HEAD=vp, TAIL=nil], NUM=sg] -> 'thinks' S
-V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]], NUM=sg] -> 'puts'
-V[FORM=p3sg, SUBCAT=nil] -> 'barks'
-
-# gerund
-V[FORM=grnd, SUBCAT=[HEAD=np,TAIL=nil]] -> 'inventing'
-
-# preterite
-V[FORM=past, SUBCAT=nil] -> 'barked'
-V[FORM=past, SUBCAT=[HEAD=np, TAIL=nil]] -> 'ate'
+DET -> 'the'
+PREP -> 'in' | 'after'
+CONJ -> 'and' | 'when'

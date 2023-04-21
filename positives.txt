@@ -12,12 +12,6 @@ when Gromit barks Wallace feeds Gromit
 when does Wallace eat cheese
 when do Wallace and Gromit invent contraptions
 Wallace eats cheese in the kitchen and invents contraptions after dinner
-Wallace eats cheese and Gromit
-Wallace likes inventing contraptions
-Gromit may have barked
-Gromit watches Wallace invent contraptions
-what does Gromit eat
-what does Wallace feed Gromit
-whom does Wallace feed cheese
-what does Gromit think Wallace invents
-where does Gromit think Wallace puts the cheese
+Gromit barked and Wallace ate cheese
+Wallace feeds Gromit when Gromit barks
+Wallace seldom thinks when Gromit barks
