@@ -1,10 +1,12 @@
 S[-INV] -> SUB | S CONJ S | CONJ SUB SUB
-S[-INV] -> NP S/NP
 S[-INV] -> ADV[+WH] S[+INV]
+S[-INV] -> ADV[+WH] S[+INV]/NP | ADV[+WH] S[+INV]/PP
 S[+INV] -> V[+AUX] NP VP
+S[+INV]/?x -> V[+AUX] NP VP/?x
 
-# Subsentence
+## Subsentence
 SUB -> NP[NUM=?n] VP[NUM=?n, SUBCAT=nil]
+SUB/?x -> NP[NUM=?n] VP[NUM=?n, SUBCAT=nil]/?x
 
 ## Verb Phrases
 
@@ -12,39 +14,58 @@ SUB -> NP[NUM=?n] VP[NUM=?n, SUBCAT=nil]
 VP[NUM=?n, SUBCAT=?args] -> V[NUM=?n, SUBCAT=?args]
 # transitive
 VP[NUM=?n, SUBCAT=?rest] -> VP[NUM=?n, SUBCAT=[HEAD=?arg, TAIL=?rest]] ARG[CAT=?arg]
+VP[NUM=?n, SUBCAT=?rest]/?x -> VP[NUM=?n, SUBCAT=[HEAD=?arg, TAIL=?rest]] ARG[CAT=?arg]/?x
+
 # other
-VP[NUM=?n] -> ADV VP[NUM=?n] | VP[NUM=?n] ADJN | VP[NUM=?n] CONJ VP[NUM=?n]
+VP[NUM=?n] -> ADV VP[NUM=?n] | VP[NUM=?n] ADJN | VP[NUM=?n] CONJ VP[NUM=?n] | MOD V[+AUX] VP[TENSE=part]
+VP[NUM=?n]/?x -> ADV VP[NUM=?n]/?x | VP[NUM=?n] ADJN/?x
 
 ## Verb Arguments
 ARG[CAT=np] -> NP
+ARG[CAT=np]/?x -> NP/?x
 ARG[CAT=sub] -> SUB
+ARG[CAT=sub]/?x -> SUB/?x
+ARG[CAT=vp_g] -> VP[TENSE=grnd]
+ARG[CAT=vp_p] -> VP[TENSE=pres]
 
+## Noun Phrases
 NP[NUM=?n] -> N[NUM=?n] | PN[NUM=?n] | DET N[NUM=?n] | NP CONJ NP
+NP/NP ->
 PP -> PREP NP
 ADJN -> PP
+ADJN/PP ->
 
 ### Lexical Productions
 
-V[TENSE=pres, NUM=pl, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eat' | 'invent'
-V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eats' | 'invents'
-V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'feeds'
-V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=np, TAIL=nil]]] -> 'feeds'
-V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]]] -> 'puts'
+## Verbs
+V[TENSE=pres, NUM=pl, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eat' | 'invent' | 'feed'
+V[TENSE=pres, NUM=pl, -AUX, SUBCAT=[HEAD=sub, TAIL=nil]] -> 'think'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eats' | 'invents' | 'feeds'  | 'watches'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=vp_g, TAIL=nil]] -> 'likes'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=np, TAIL=nil]]] -> 'feeds' | 'watches'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]]] -> 'puts' | 'watches'
+V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=np, TAIL=[HEAD=vp_p, TAIL=nil]]] -> 'watches'
 V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=sub, TAIL=nil]] -> 'thinks'
 V[TENSE=pres, NUM=sg, -AUX, SUBCAT=nil] -> 'barks' 
 V[TENSE=pres, NUM=pl, +AUX, SUBCAT=nil] -> 'do'
 V[TENSE=pres, NUM=sg, +AUX, SUBCAT=nil] -> 'does'
+V[TENSE=pres, NUM=?n, +AUX, SUBCAT=nil] -> 'have'
 V[TENSE=past, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'ate'
-V[TENSE=past, -AUX, SUBCAT=nil] ->  'barked'
+V[TENSE=part, -AUX, SUBCAT=nil] ->  'barked'
+V[TENSE=grnd, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'inventing'
+V[TENSE=part, NUM=pl, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'invented'
 
+## Nouns
 N[NUM=sg] -> 'cheese' | 'dinner' | 'kitchen'
 N[NUM=pl] -> 'contraptions'
-
+# Proper Nouns
 PN[NUM=sg] -> 'Gromit' | 'Wallace'
 
-ADV[+WH] -> 'when'
+## Adverbs
+ADV[+WH] -> 'when' | 'whom' | 'what' | 'where'
 ADV[-WH] -> 'seldom' | 'often'
 
 DET -> 'the'
 PREP -> 'in' | 'after'
 CONJ -> 'and' | 'when'
+MOD -> 'may'
