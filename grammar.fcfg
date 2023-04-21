@@ -26,7 +26,7 @@ ARG[CAT=np]/?x -> NP/?x
 ARG[CAT=sub] -> SUB
 ARG[CAT=sub]/?x -> SUB/?x
 ARG[CAT=vp_g] -> VP[TENSE=grnd]
-ARG[CAT=vp_p] -> VP[TENSE=pres]
+ARG[CAT=vp_p] -> VP[TENSE=pres, NUM=pl]
 
 ## Noun Phrases
 NP[NUM=?n] -> N[NUM=?n] | PN[NUM=?n] | DET N[NUM=?n] | NP CONJ NP
