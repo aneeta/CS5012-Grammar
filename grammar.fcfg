@@ -1,11 +1,73 @@
-S -> NP VP
-NP -> ProperNoun | N
+S -> WH AUX[FORM=?f] SUBS
+S -> WH SUBS | WH SUBS SUBS
+S -> SUBS
 
-VP -> VP ARG
-VP -> V
-ARG -> NP
+SUBS[NUM=?n, FORM=?f] -> NP[NUM=?n] VP[FORM=?f, NUM=?n]
 
-V -> 'invent'
-V -> 'invents'
-ProperNoun -> 'Wallace'
-N -> 'contraptions'
+
+VP[SUBCAT=?args, FORM=?f] -> V[SUBCAT=?args, FORM=?f]
+VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] PP[NUM=?n]
+VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] NP[NUM=?n]
+VP[SUBCAT=?args, FORM=?f, NUM=?n] -> V[SUBCAT=?args, FORM=?f, NUM=?n] NP[NUM=?n] PP[NUM=?n]
+VP[SUBCAT=?rest, FORM=?f] -> VP[SUBCAT=[HEAD=?arg, TAIL=?rest], FORM=?f] ARG[CAT=?arg]
+VP[SUBCAT=?rest, FORM=?f] -> ADV VP[SUBCAT=[HEAD=?arg, TAIL=?rest], FORM=?f]
+VP[SUBCAT=?rest, FORM=?f] -> VP[SUBCAT=nil, FORM=?f] CONJ VP[SUBCAT=nil, FORM=?f]
+VP[SUBCAT=?rest, FORM=?f] -> MOD VP[SUBCAT=nil, FORM=?f]
+
+NP[NUM=?n]-> N[NUM=?n]
+NP[NUM=?n] -> PN[NUM=?n]
+NP[NUM=?n]-> DET N[NUM=?n]
+NP -> NP CONJ NP
+
+PP[NUM=?n] -> PREP NP[NUM=?n]
+
+ARG[CAT=np] -> NP
+ARG[CAT=pp] -> PP
+ARG[CAT=vp] -> VP
+ARG[CAT=gp] -> VP[FORM=grnd]
+
+
+### Parts of Speech (Terminals)
+
+ADV -> 'seldom' | 'often'
+CONJ -> 'and'
+DET -> 'the'
+PREP -> 'in' | 'after'
+WH -> 'when' | 'what' | 'whom' | 'where'
+
+## Nouns
+N[NUM=sg] -> 'cheese' | 'dinner' | 'kitchen'
+N[NUM=pl] -> 'contraptions' | 'cheese'
+
+PN[NUM=sg] -> 'Gromit' | 'Wallace'
+
+## Auxiliary verbs
+AUX[FORM=base, T=q] -> 'do'
+AUX[FORM=base, T=m] -> 'have'
+AUX[FORM=p3sg, T=q] -> 'does'
+
+## Modal
+MOD -> 'may' AUX[FORM=base, T=m]
+
+## Verbs
+
+# base
+V[FORM=base, SUBCAT=[HEAD=np, TAIL=nil]] -> 'eat' | 'invent' | 'feed'
+V[FORM=base, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]]] -> 'eat' | 'invent'
+V[FORM=base, SUBCAT=[HEAD=vp, TAIL=nil]] -> 'think' S
+
+# third person singular present:
+V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=nil], NUM=sg] -> 'eats' | 'invents' | 'feeds'
+V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]], NUM=sg] -> 'eats' | 'invents' | 'feeds' | 'likes' | 'watches'
+V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=vp, TAIL=nil]], NUM=sg] -> 'watches'
+V[FORM=p3sg, SUBCAT=[HEAD=gp, TAIL=[HEAD=np, TAIL=nil]], NUM=sg] -> 'likes'
+V[FORM=p3sg, SUBCAT=[HEAD=vp, TAIL=nil], NUM=sg] -> 'thinks' S
+V[FORM=p3sg, SUBCAT=[HEAD=np, TAIL=[HEAD=pp, TAIL=nil]], NUM=sg] -> 'puts'
+V[FORM=p3sg, SUBCAT=nil] -> 'barks'
+
+# gerund
+V[FORM=grnd, SUBCAT=[HEAD=np,TAIL=nil]] -> 'inventing'
+
+# preterite
+V[FORM=past, SUBCAT=nil] -> 'barked'
+V[FORM=past, SUBCAT=[HEAD=np, TAIL=nil]] -> 'ate'
