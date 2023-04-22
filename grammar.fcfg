@@ -1,4 +1,4 @@
-S[-INV] -> SUB | S CONJ S | CONJ SUB SUB
+S[-INV] -> SUB | S CONJ S | CONJ SUB SUB | S[+INV]
 S[-INV] -> ADV[+WH] S[+INV]
 S[-INV] -> ADV[+WH] S[+INV]/NP | ADV[+WH] S[+INV]/PP
 S[+INV] -> V[+AUX] NP VP
@@ -17,8 +17,9 @@ VP[NUM=?n, SUBCAT=?rest] -> VP[NUM=?n, SUBCAT=[HEAD=?arg, TAIL=?rest]] ARG[CAT=?
 VP[NUM=?n, SUBCAT=?rest]/?x -> VP[NUM=?n, SUBCAT=[HEAD=?arg, TAIL=?rest]] ARG[CAT=?arg]/?x
 
 # other
-VP[NUM=?n] -> ADV VP[NUM=?n] | VP[NUM=?n] ADJN | VP[NUM=?n] CONJ VP[NUM=?n] | MOD V[+AUX] VP[TENSE=part]
+VP[NUM=?n] -> ADV VP[NUM=?n] | VP[NUM=?n] ADJN
 VP[NUM=?n]/?x -> ADV VP[NUM=?n]/?x | VP[NUM=?n] ADJN/?x
+VP[NUM=?n] -> MOD V[+AUX] VP[TENSE=part] | MOD VP[TENSE=pres] | VP[NUM=?n] CONJ VP[NUM=?n]
 
 ## Verb Arguments
 ARG[CAT=np] -> NP
@@ -49,14 +50,17 @@ V[TENSE=pres, NUM=sg, -AUX, SUBCAT=[HEAD=sub, TAIL=nil]] -> 'thinks'
 V[TENSE=pres, NUM=sg, -AUX, SUBCAT=nil] -> 'barks' 
 V[TENSE=pres, NUM=pl, +AUX, SUBCAT=nil] -> 'do'
 V[TENSE=pres, NUM=sg, +AUX, SUBCAT=nil] -> 'does'
-V[TENSE=pres, NUM=?n, +AUX, SUBCAT=nil] -> 'have'
+V[TENSE=pres, +AUX, SUBCAT=nil] -> 'may'
+V[TENSE=pres, +AUX, SUBCAT=nil] -> 'have'
 V[TENSE=past, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'ate'
 V[TENSE=part, -AUX, SUBCAT=nil] ->  'barked'
 V[TENSE=grnd, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'inventing'
 V[TENSE=part, NUM=pl, -AUX, SUBCAT=[HEAD=np, TAIL=nil]] -> 'invented'
+# modal
+MOD -> 'may'
 
 ## Nouns
-N[NUM=sg] -> 'cheese' | 'dinner' | 'kitchen'
+N[NUM=sg] -> 'cheese' | 'dinner' | 'kitchen' | 'dark'
 N[NUM=pl] -> 'contraptions'
 # Proper Nouns
 PN[NUM=sg] -> 'Gromit' | 'Wallace'
@@ -65,7 +69,9 @@ PN[NUM=sg] -> 'Gromit' | 'Wallace'
 ADV[+WH] -> 'when' | 'whom' | 'what' | 'where'
 ADV[-WH] -> 'seldom' | 'often'
 
+## determiner
 DET -> 'the'
+## preposition
 PREP -> 'in' | 'after'
+## conjunction
 CONJ -> 'and' | 'when'
-MOD -> 'may'
